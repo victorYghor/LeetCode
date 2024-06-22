@@ -10,17 +10,19 @@ fun main() {
         for(i in numsZeroOne.indices) {
             pref[i + 1] = pref[i] + numsZeroOne[i]
         }
-        var numberOfSubarrays = 0
-        // eu preciso ficar passando por ele ficar calculando os sub arrays
-        for(i in pref.indices) {
-            val min = pref[i]
-            for(j in pref.indices) {
-                val max = pref[j]
-                if(max - min == k) numberOfSubarrays++
-            }
-        }
+        pref.removeFirst()
+
+        var result = 0
+        val subArrayCount = mutableMapOf(0 to 1)
+         for(n in pref) {
+             val minArray = n - k
+             if(subArrayCount.keys.contains(minArray)) result += subArrayCount[minArray]!!
+             subArrayCount[n] = (subArrayCount[n] ?: 0) + 1
+
+         }
+
         println(pref)
-        return numberOfSubarrays
+        return result
     }
     println("Example 1")
     println("the number of subArrays is " + numberOfSubarrays(intArrayOf(1,1,2,1,1), 3))
